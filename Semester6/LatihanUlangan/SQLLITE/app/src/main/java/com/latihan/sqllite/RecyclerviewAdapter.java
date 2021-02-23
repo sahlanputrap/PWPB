@@ -6,15 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.UserViewHolder> {
+import java.util.List;
+
+public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.Holder> {
     Context context;
-    OnUserClickListener listener;
     List<PersonBean> listPersonInfo;
-    public RecyclerviewAdapter(Context context, List<PersonBean> listPersonInfo,OnUserClickListener listener) {
+    OnUserClickListener listener;
+    public RecyclerviewAdapter(Context context, List<PersonBean>listPersonInfo,OnUserClickListener listener) {
         this.context=context;
         this.listPersonInfo=listPersonInfo;
         this.listener=listener;
@@ -24,18 +26,17 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
     }
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view=
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.user_row_item,parent,false);
-        UserViewHolder userViewHolder=new UserViewHolder(view);
-        return userViewHolder;
+    public RecyclerviewAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.user_row_item,parent,false);
+        Holder holder=new Holder(view);
+        return holder;
     }
+
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerviewAdapter.Holder holder, int position) {
         final PersonBean currentPerson=listPersonInfo.get(position);
-        holder.ctxtName.setText(currentPerson.getName());
-        holder.ctxtAge.setText(currentPerson.getAge()+"");
+        holder.inpJudul.setText(currentPerson.getJudul());
+        holder.inpDeskripsi.setText(currentPerson.getDeskripsi());
         holder.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,19 +50,21 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return listPersonInfo.size();
     }
-    public class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView ctxtAge,ctxtName;
-        ImageView imgDelete,imgEdit;
-        public UserViewHolder(@NonNull View itemView) {
+
+    public class Holder extends RecyclerView.ViewHolder {
+        TextView inpJudul, inpDeskripsi;
+        ImageView imgEdit, imgDelete;
+        public Holder(@NonNull View itemView) {
             super(itemView);
-            ctxtAge=itemView.findViewById(R.id.ctxtAge);
-            ctxtName=itemView.findViewById(R.id.ctxtName);
-            imgDelete=itemView.findViewById(R.id.imgdelete);
-            imgEdit=itemView.findViewById(R.id.imgedit);
+            inpJudul=itemView.findViewById(R.id.judul);
+            inpDeskripsi=itemView.findViewById(R.id.deskripsi);
+            imgDelete=itemView.findViewById(R.id.btndelete);
+            imgEdit=itemView.findViewById(R.id.btnedit);
         }
     }
 }

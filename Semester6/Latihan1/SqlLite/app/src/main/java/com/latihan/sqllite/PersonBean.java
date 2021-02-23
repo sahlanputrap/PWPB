@@ -1,5 +1,6 @@
 package com.latihan.sqllite;
 
+
 public class PersonBean {
     String name;
     int age;
